@@ -58,7 +58,7 @@ bld/
 *.nuget.targets
 
 # User-specific files and sensitive data
-TwilioMessenger.Web/Data/contacts.json
+# TwilioMessenger.Web/Data/contacts.json
 appsettings.Development.json
 appsettings.Production.json
 appsettings.Staging.json
