@@ -1,0 +1,135 @@
+@page
+@model TwilioMessenger.Web.Pages.SendMessageModel
+@{
+    ViewData["Title"] = "Send Messages";
+}
+
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <div class="card">
+            <div class="card-header">
+                <h2>Send Promotional Message</h2>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(Model.StatusMessage))
+                {
+                    <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") alert-dismissible fade show" role="alert">
+                        @Model.StatusMessage
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Message.RecipientType" class="form-label"></label>
+                        <select asp-for="Message.RecipientType" class="form-select" 
+                                asp-items="Html.GetEnumSelectList<TwilioMessenger.Web.Models.MessageRecipientType>()">
+                        </select>
+                        <span asp-validation-for="Message.RecipientType" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3" id="specificRecipientDiv" style="display:none;">
+                        <label asp-for="Message.SpecificRecipient" class="form-label">Phone Number</label>
+                        <select asp-for="Message.SpecificRecipient" class="form-select">
+                            <option value="">-- Select a contact --</option>
+                            @foreach (var contact in Model.Contacts)
+                            {
+                                <option value="@contact.PhoneNumber">@contact.Name (@contact.PhoneNumber)</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Message.SpecificRecipient" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Message.MessageText" class="form-label"></label>
+                        <textarea asp-for="Message.MessageText" class="form-control" rows="5" placeholder="Type your promotional message here..."></textarea>
+                        <span asp-validation-for="Message.MessageText" class="text-danger"></span>
+                        <div class="form-text">
+                            <span id="characterCount">0</span>/1600 characters
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a asp-page="/Index" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        @if (Model.RecentResult != null)
+        {
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>Message Delivery Results</h3>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>Success:</strong> @Model.RecentResult.SuccessCount messages sent successfully<br />
+                        <strong>Failed:</strong> @Model.RecentResult.FailureCount messages failed to send
+                    </p>
+                    
+                    @if (Model.RecentResult.FailedNumbers.Any())
+                    {
+                        <div class="alert alert-warning">
+                            <h5>Failed Recipients:</h5>
+                            <ul>
+                                @foreach (var number in Model.RecentResult.FailedNumbers)
+                                {
+                                    <li>@number</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const recipientTypeSelect = document.getElementById('@Html.IdFor(m => m.Message.RecipientType)');
+            const specificRecipientDiv = document.getElementById('specificRecipientDiv');
+            const specificRecipientSelect = document.getElementById('@Html.IdFor(m => m.Message.SpecificRecipient)');
+            const messageTextarea = document.getElementById('@Html.IdFor(m => m.Message.MessageText)');
+            const characterCount = document.getElementById('characterCount');
+            
+            // Update specific recipient visibility
+            function updateSpecificRecipientVisibility() {
+                if (recipientTypeSelect.value === '3') { // 3 = SpecificRecipient
+                    specificRecipientDiv.style.display = 'block';
+                    specificRecipientSelect.setAttribute('required', 'required');
+                } else {
+                    specificRecipientDiv.style.display = 'none';
+                    specificRecipientSelect.removeAttribute('required');
+                }
+            }
+            
+            // Update character count
+            function updateCharacterCount() {
+                const length = messageTextarea.value.length;
+                characterCount.textContent = length;
+                
+                if (length > 1600) {
+                    characterCount.classList.add('text-danger');
+                } else {
+                    characterCount.classList.remove('text-danger');
+                }
+            }
+            
+            // Initial setup
+            updateSpecificRecipientVisibility();
+            updateCharacterCount();
+            
+            // Event listeners
+            recipientTypeSelect.addEventListener('change', updateSpecificRecipientVisibility);
+            messageTextarea.addEventListener('input', updateCharacterCount);
+        });
+    </script>
+}

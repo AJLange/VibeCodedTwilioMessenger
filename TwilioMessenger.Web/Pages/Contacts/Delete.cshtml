@@ -1,0 +1,52 @@
+@page "{id}"
+@model TwilioMessenger.Web.Pages.Contacts.DeleteModel
+@{
+    ViewData["Title"] = "Delete Contact";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h2>Delete Contact</h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <h4>Are you sure you want to delete this contact?</h4>
+                    <p>This action cannot be undone.</p>
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-3">Name</dt>
+                    <dd class="col-sm-9">@Model.Contact.Name</dd>
+
+                    <dt class="col-sm-3">Phone Number</dt>
+                    <dd class="col-sm-9">@Model.Contact.PhoneNumber</dd>
+
+                    <dt class="col-sm-3">Type</dt>
+                    <dd class="col-sm-9">@Model.Contact.Type</dd>
+
+                    <dt class="col-sm-3">Opted In</dt>
+                    <dd class="col-sm-9">
+                        @if (Model.Contact.IsOptedIn)
+                        {
+                            <span class="badge bg-success">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">No</span>
+                        }
+                    </dd>
+                </dl>
+
+                <form method="post">
+                    <input type="hidden" asp-for="Contact.Id" />
+                    <div class="d-flex justify-content-between">
+                        <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

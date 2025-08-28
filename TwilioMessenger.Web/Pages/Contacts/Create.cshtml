@@ -1,0 +1,54 @@
+@page
+@model TwilioMessenger.Web.Pages.Contacts.CreateModel
+@{
+    ViewData["Title"] = "Add New Contact";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h2>@ViewData["Title"]</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Contact.Name" class="form-label"></label>
+                        <input asp-for="Contact.Name" class="form-control" />
+                        <span asp-validation-for="Contact.Name" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Contact.PhoneNumber" class="form-label"></label>
+                        <input asp-for="Contact.PhoneNumber" class="form-control" placeholder="+12345678901" />
+                        <span asp-validation-for="Contact.PhoneNumber" class="text-danger"></span>
+                        <div class="form-text">Enter phone number in E.164 format (e.g., +12345678901)</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Contact.Type" class="form-label"></label>
+                        <select asp-for="Contact.Type" class="form-select" asp-items="Html.GetEnumSelectList<TwilioMessenger.Core.Models.ContactType>()">
+                        </select>
+                        <span asp-validation-for="Contact.Type" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input asp-for="Contact.IsOptedIn" class="form-check-input" />
+                        <label asp-for="Contact.IsOptedIn" class="form-check-label"></label>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

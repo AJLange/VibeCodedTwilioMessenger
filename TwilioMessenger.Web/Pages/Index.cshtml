@@ -1,0 +1,62 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Twilio Messenger Dashboard</h1>
+    <p>Send promotional messages to your opted-in users via SMS and WhatsApp</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Send Messages</h5>
+            </div>
+            <div class="card-body">
+                <p>Send promotional messages to your opted-in users</p>
+                <a href="/SendMessage" class="btn btn-primary">Send Messages</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Manage Contacts</h5>
+            </div>
+            <div class="card-body">
+                <p>Add, edit, or remove contacts from your database</p>
+                <a href="/Contacts" class="btn btn-primary">Manage Contacts</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Stats</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <h3>@Model.TotalContacts</h3>
+                        <p>Total Contacts</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h3>@Model.SmsContacts</h3>
+                        <p>SMS Contacts</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h3>@Model.WhatsAppContacts</h3>
+                        <p>WhatsApp Contacts</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

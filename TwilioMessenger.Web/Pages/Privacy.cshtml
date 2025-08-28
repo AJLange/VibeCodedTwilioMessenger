@@ -1,0 +1,44 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="card-body">
+        <h2>SMS and WhatsApp Messaging Privacy Policy</h2>
+        
+        <p>
+            This application sends promotional SMS and WhatsApp messages to users who have explicitly opted in to 
+            receive communications from you. Please ensure you comply with all applicable laws and regulations 
+            regarding SMS and WhatsApp messaging, including but not limited to:
+        </p>
+        
+        <ul>
+            <li>Obtaining explicit consent before sending promotional messages</li>
+            <li>Providing clear opt-out instructions in your messages</li>
+            <li>Honoring opt-out requests promptly</li>
+            <li>Not sending messages during restricted hours</li>
+            <li>Maintaining accurate records of user consent</li>
+        </ul>
+        
+        <h3>User Data Storage</h3>
+        
+        <p>
+            This application stores user contact information in a local JSON file. No personal data is transmitted 
+            to any third-party services except Twilio for the sole purpose of message delivery. Please ensure 
+            appropriate security measures are in place to protect this data.
+        </p>
+        
+        <h3>Twilio Services</h3>
+        
+        <p>
+            This application uses Twilio's API services for message delivery. Please review 
+            <a href="https://www.twilio.com/legal/privacy" target="_blank">Twilio's Privacy Policy</a> 
+            for more information about how they process data.
+        </p>
+    </div>
+</div>
